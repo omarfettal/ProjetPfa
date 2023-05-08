@@ -31,22 +31,17 @@ def recherche():
     con= pymysql.connect(host='localhost',user='root',passwd='omarfettal10',database='cars')
     mycursor=con.cursor()
     search_query=search_entry.get()
-
+    tree.delete(*tree.get_children())
 #marque
-    for row in tree.get_children():
-        tree.delete(row)
-
+ 
     query = f"SELECT * FROM voitures WHERE marque LIKE '%{search_query}%'"
     mycursor.execute(query)
     resultat1= mycursor.fetchall()
     
     for row in resultat1:
         tree.insert("", "end",text=row[0],values=row[1:9])
-
+       
 #type carburant
-    for row in tree.get_children():
-        tree.delete(row)
-
     query = f"SELECT * FROM voitures WHERE type_carburant LIKE '%{search_query}%'"
     mycursor.execute(query)
     resultat1= mycursor.fetchall()
@@ -55,9 +50,6 @@ def recherche():
         tree.insert("", "end",text=row[0],values=row[1:9])
 
 # nombres de places
-    for row in tree.get_children():
-        tree.delete(row)
-
     query = f"SELECT * FROM voitures WHERE nombres_de_places LIKE '%{search_query}%'"
     mycursor.execute(query)
     resultat1= mycursor.fetchall()
@@ -66,8 +58,7 @@ def recherche():
         tree.insert("", "end",text=row[0],values=row[1:9])
 
 #transmission
-    for row in tree.get_children():
-        tree.delete(row)
+   
 
     query = f"SELECT * FROM voitures WHERE transmission LIKE '%{search_query}%'"
     mycursor.execute(query)
@@ -77,10 +68,10 @@ def recherche():
         tree.insert("", "end",text=row[0],values=row[1:9])
 
 #prix par jour
-    for row in tree.get_children():
-        tree.delete(row)
-
-    query = f"SELECT * FROM voitures WHERE prix_par_jour='{search_query}'"
+    if search_query.isdigit():
+       query = f"SELECT * FROM voitures WHERE prix_par_jour='{search_query}'"    
+    else : 
+       query = f"SELECT * FROM voitures WHERE prix_par_jour='{search_query}'"
     mycursor.execute(query)
     resultat1= mycursor.fetchall()
     
